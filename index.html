@@ -9,188 +9,259 @@
 <body>
 <!-- partial:index.partial.html -->
 <!DOCTYPE html>
-
-<html lang="zh-Hant">
-
+<html lang="zh-TW">
 <head>
-
-  <meta charset="UTF-8">
-
-  <title>衛哨守則默寫練習</title>
-
+  <meta charset="UTF-8" />
+  <title>衛哨守則默寫挑戰</title>
   <style>
     body {
-      font-family: sans-serif;
+      font-family: "Microsoft JhengHei", sans-serif;
+      background-color: #2d3b2f;
+      color: #e0e0d1;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
       padding: 20px;
     }
 
-    input[type="text"],
-    textarea {
-      width: 100%;
-      padding: 8px;
-      margin: 5px 0 15px 0;
+    h1 {
+      color: #d4ed91;
+    }
+
+    .rank {
+      font-size: 1.3em;
+      margin: 15px 0;
+      color: #ffea00;
+    }
+
+    .question {
+      background-color: #3b4d3a;
+      padding: 20px;
+      border-radius: 8px;
+      font-size: 1.2em;
+      margin-top: 20px;
+      white-space: pre-line;
+    }
+
+    input {
+      width: 90%;
+      padding: 10px;
+      font-size: 1em;
+      border: 2px solid #6c8c6b;
+      background-color: #f0f0f0;
+      margin-top: 10px;
+      border-radius: 4px;
+    }
+
+    button {
+      padding: 10px 15px;
+      font-size: 1em;
+      margin-top: 15px;
+      margin: 10px 5px;
+      background-color: #6c8c6b;
+      border: none;
+      color: white;
+      cursor: pointer;
+      border-radius: 4px;
+      user-select: none;
+    }
+
+    button:hover {
+      background-color: #587a57;
+    }
+
+    .feedback {
+      margin-top: 10px;
+      font-weight: bold;
     }
 
     .correct {
-      color: green;
+      color: #aaffaa;
     }
 
     .wrong {
-      color: red;
+      color: #ff9999;
     }
 
-    h2 {
-      margin-top: 30px;
+    .hint {
+      margin-top: 10px;
+      color: #ffeeaa;
+      font-style: italic;
+      min-height: 1.5em;
+    }
+
+    .check-icon {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 80px;
+      color: #00ff00;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 999;
+      animation: none;
+    }
+
+    @keyframes popUp {
+      0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+      50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+      100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+    }
+
+    body.correct-flash {
+      animation: flashGreen 0.4s ease-in-out;
+    }
+
+    @keyframes flashGreen {
+      0% { background-color: #2d3b2f; }
+      50% { background-color: #4caf50; }
+      100% { background-color: #2d3b2f; }
     }
   </style>
-
 </head>
-
 <body>
-
-  <h1>衛哨守則默寫練習</h1>
-
-  <form id="quizForm">
-
-    <h2>🔶用槍時機</h2>
-
-    <p>1 <textarea name="q1"></textarea></p>
-
-    <p>2 <textarea name="q2"></textarea></p>
-
-    <p>3 <textarea name="q3"></textarea></p>
-
-    <p>4 <textarea name="q4"></textarea></p>
-
-    <p>5 <textarea name="q5"></textarea></p>
-
-    <h2>🔷用槍要領</h2>
-
-    <p>1 <textarea name="q6"></textarea></p>
-
-    <p>2 <textarea name="q7"></textarea></p>
-
-    <p>3 <textarea name="q8"></textarea></p>
-
-    <p>4 <textarea name="q9"></textarea></p>
-
-    <p>5 <textarea name="q10"></textarea></p>
-
-    <h2>🔶安全守則</h2>
-
-    <p>1 <textarea name="q11"></textarea></p>
-
-    <p>2 <textarea name="q12"></textarea></p>
-
-    <p>3 <textarea name="q13"></textarea></p>
-
-    <p>4 <textarea name="q14"></textarea></p>
-
-    <p>5 <textarea name="q15"></textarea></p>
-
-    <p>6 <textarea name="q16"></textarea></p>
-
-    <p>7 <textarea name="q17"></textarea></p>
-
-    <p>8 <textarea name="q18"></textarea></p>
-
-    <h2>🔷一般守則</h2>
-
-    <p>1 <textarea name="q19"></textarea></p>
-
-    <p>2 <textarea name="q20"></textarea></p>
-
-    <p>3 <textarea name="q21"></textarea></p>
-
-    <p>4 <textarea name="q22"></textarea></p>
-
-    <p>5 <textarea name="q23"></textarea></p>
-
-    <p>6 <textarea name="q24"></textarea></p>
-
-    <p>7 <textarea name="q25"></textarea></p>
-
-    <p>8 <textarea name="q26"></textarea></p>
-
-    <h2>🔶六何</h2>
-
-    <p><textarea name="q27"></textarea></p>
-
-    <h2>🔷安全士官4大職責</h2>
-
-    <p>1 <textarea name="q28"></textarea></p>
-
-    <p>2 <textarea name="q29"></textarea></p>
-
-    <p>3 <textarea name="q30"></textarea></p>
-
-    <p>4 <textarea name="q31"></textarea></p>
-
-    <button type="button" onclick="checkAnswers()">提交答案</button>
-
-  </form>
-
-  <h2 id="result"></h2>
-
-  <div id="corrections"></div>
+  <div class="container">
+    <h1>衛哨守則默寫挑戰</h1>
+    <div class="rank">目前軍階：<span id="rank">二兵</span></div>
+    <div class="question" id="questionBox"></div>
+    <input type="text" id="answerInput" placeholder="請輸入完整句子" autocomplete="off" />
+    <br />
+    <button onclick="checkAnswer()">提交答案</button>
+    <button onclick="showHint()">提示答案</button>
+    <div class="feedback" id="feedback"></div>
+    <div class="hint" id="hintBox"></div>
+    <div id="checkIcon" class="check-icon">✔️</div>
+  </div>
 
   <script>
-    const answers = {
-      q1: "當生命身體受暴行脅迫非使用武器不得抵抗或自衛",
-      q2: "群眾暴動時非使用武器不能鎮壓",
-      q3: "所警戒之人員、武器、物資、車、船、航空器受危害脅迫非使用武器不能保護",
-      q4: "因防衛駐守之土地、場所、建築物受襲擾或擅闖經警告仍不聽從",
-      q5: "要犯脫逃非使用武器不能制止時",
-      q6: "武器使用前應先口頭警告並對空鳴槍",
-      q7: "經警告後如有畏服之行為應立即停止使用",
-      q8: "武器使用應注意避免傷及他人",
-      q9: "除非情勢異常緊迫儘量避免傷及其致命部位",
-      q10: "武器使用後應將情形報告於所屬長官",
-      q11: "負責營舍安全",
-      q12: "械彈清點管制",
-      q13: "嚴密水電管制",
-      q14: "清查就寢人數",
-      q15: "巡視衛哨勤務",
-      q16: "注意可疑人物",
-      q17: "接聽戰情電話",
-      q18: "反應緊急事故",
-      q19: "服裝整齊 配件光亮",
-      q20: "精神飽滿 姿態端正",
-      q21: "械彈攜出 確遵規則",
-      q22: "堅守崗位 嚴密搜索",
-      q23: "提高警覺 時時戒備",
-      q24: "不看熱鬧 注意可疑",
-      q25: "服勤認真 講話客氣",
-      q26: "嚴格管制 仔細查驗",
-      q27: "何時、何地、何人、何事、如何、為何",
-      q28: "庫存安全管制",
-      q29: "鑰匙保管權責",
-      q30: "軍械領繳查驗",
-      q31: "軍械清點責任"
-    };
+    const questions = [
+      { group: "用槍時機", q: "🔶用槍時機 1", a: "當生命身體受暴行脅迫非使用武器不得抵抗或自衛" },
+      { group: "用槍時機", q: "🔶用槍時機 2", a: "群眾暴動時非使用武器不能鎮壓" },
+      { group: "用槍時機", q: "🔶用槍時機 3", a: "所警戒之人員、武器、物資、車、船、航空器受危害脅迫非使用武器不能保護" },
+      { group: "用槍時機", q: "🔶用槍時機 4", a: "因防衛駐守之土地、場所、建築物受襲擾或擅闖經警告仍不聽從" },
+      { group: "用槍時機", q: "🔶用槍時機 5", a: "要犯脫逃非使用武器不能制止時" },
 
-    function checkAnswers() {
-      let score = 0;
-      let total = Object.keys(answers).length;
-      let output = "";
-      const form = document.forms["quizForm"];
-      for (let key in answers) {
-        let userAnswer = form[key].value.trim().replace(/[\s　]+/g, "");
-        let correctAnswer = answers[key].replace(/[\s　]+/g, "");
-        if (userAnswer === correctAnswer) {
-          output += `<p class="correct">第${key.replace(/[^\d]/g, '')}題：正確</p>`;
-          score++;
-        } else {
-          output += `<p class="wrong">第${key.replace(/[^\d]/g, '')}題：錯誤（正確答案：${answers[key]}）</p>`;
-        }
+      { group: "用槍要領", q: "🔷用槍要領 1", a: "武器使用前應先口頭警告並對空鳴槍" },
+      { group: "用槍要領", q: "🔷用槍要領 2", a: "經警告後如有畏服之行為應立即停止使用" },
+      { group: "用槍要領", q: "🔷用槍要領 3", a: "武器使用應注意避免傷及他人" },
+      { group: "用槍要領", q: "🔷用槍要領 4", a: "除非情勢異常緊迫儘量避免傷及其致命部位" },
+      { group: "用槍要領", q: "🔷用槍要領 5", a: "武器使用後應將情形報告於所屬長官" },
+
+      { group: "安全守則", q: "🔶安全守則 1", a: "負責營舍安全" },
+      { group: "安全守則", q: "🔶安全守則 2", a: "械彈清點管制" },
+      { group: "安全守則", q: "🔶安全守則 3", a: "嚴密水電管制" },
+      { group: "安全守則", q: "🔶安全守則 4", a: "清查就寢人數" },
+      { group: "安全守則", q: "🔶安全守則 5", a: "巡視衛哨勤務" },
+      { group: "安全守則", q: "🔶安全守則 6", a: "注意可疑人物" },
+      { group: "安全守則", q: "🔶安全守則 7", a: "接聽戰情電話" },
+      { group: "安全守則", q: "🔶安全守則 8", a: "反應緊急事故" },
+
+      { group: "一般守則", q: "🔷一般守則 1", a: "服裝整齊 配件光亮" },
+      { group: "一般守則", q: "🔷一般守則 2", a: "精神飽滿 姿態端正" },
+      { group: "一般守則", q: "🔷一般守則 3", a: "械彈攜出 確遵規則" },
+      { group: "一般守則", q: "🔷一般守則 4", a: "堅守崗位 嚴密搜索" },
+      { group: "一般守則", q: "🔷一般守則 5", a: "提高警覺 時時戒備" },
+      { group: "一般守則", q: "🔷一般守則 6", a: "不看熱鬧 注意可疑" },
+      { group: "一般守則", q: "🔷一般守則 7", a: "服勤認真 講話客氣" },
+      { group: "一般守則", q: "🔷一般守則 8", a: "嚴格管制 仔細查驗" },
+
+      { group: "六何", q: "🔶六何", a: "何時、何地、何人、何事、如何、為何" },
+
+      { group: "安全士官職責", q: "🔷安全士官4大職責 1", a: "庫存安全管制" },
+      { group: "安全士官職責", q: "🔷安全士官4大職責 2", a: "鑰匙保管權責" },
+      { group: "安全士官職責", q: "🔷安全士官4大職責 3", a: "軍械領繳查驗" },
+      { group: "安全士官職責", q: "🔷安全士官4大職責 4", a: "軍械清點責任" }
+    ];
+
+    const ranks = ["二兵", "一兵", "上兵", "下士", "中士", "上士","士官長"];
+    let rankIndex = 0;
+    let currentIndex = 0;
+    const completedGroups = new Set();
+    const answeredInGroup = {};
+
+    function loadQuestion() {
+      if (currentIndex >= questions.length) {
+        document.getElementById("questionBox").textContent = "挑戰完成！你已晉升為「" + ranks[rankIndex] + "」。";
+        document.getElementById("answerInput").style.display = "none";
+        document.getElementById("hintBox").textContent = "";
+        return;
       }
-      document.getElementById("result").innerText = `總分：${score} / ${total}`;
-      document.getElementById("corrections").innerHTML = output;
+      document.getElementById("questionBox").textContent = questions[currentIndex].q;
+      document.getElementById("answerInput").value = "";
+      document.getElementById("feedback").textContent = "";
+      document.getElementById("hintBox").textContent = "";
+      document.getElementById("answerInput").focus();
     }
+
+    function checkAnswer() {
+      const input = document.getElementById("answerInput").value.trim();
+      const correct = questions[currentIndex].a;
+      const group = questions[currentIndex].group;
+      const feedback = document.getElementById("feedback");
+
+      if (input === correct) {
+        feedback.textContent = "答對了！";
+        feedback.className = "feedback correct";
+        showEffect();
+
+        if (!answeredInGroup[group]) answeredInGroup[group] = 0;
+        answeredInGroup[group]++;
+
+        const totalInGroup = questions.filter(q => q.group === group).length;
+
+        // 判斷是否完成整組題目
+        if (answeredInGroup[group] === totalInGroup && !completedGroups.has(group)) {
+          completedGroups.add(group);
+          rankUp();
+        }
+
+        currentIndex++;
+        setTimeout(loadQuestion, 800);
+      } else {
+        feedback.textContent = "答案不正確，再試一次。";
+        feedback.className = "feedback wrong";
+      }
+    }
+
+    function rankUp() {
+      if (rankIndex < ranks.length - 1) {
+        rankIndex++;
+        document.getElementById("rank").textContent = ranks[rankIndex];
+        alert("恭喜你答完一組題目，軍階升級為「" + ranks[rankIndex] + "」！");
+      }
+    }
+
+    function showHint() {
+      document.getElementById("hintBox").textContent = questions[currentIndex].a;
+    }
+
+    function showEffect() {
+      // 綠色閃背景特效
+      document.body.classList.add("correct-flash");
+      setTimeout(() => {
+        document.body.classList.remove("correct-flash");
+      }, 400);
+
+      // 大綠勾動畫
+      const icon = document.getElementById("checkIcon");
+      icon.style.animation = "popUp 0.8s forwards";
+      icon.style.opacity = "1";
+      setTimeout(() => {
+        icon.style.opacity = "0";
+        icon.style.animation = "none";
+      }, 800);
+    }
+
+    // 頁面載入後顯示第一題
+    window.onload = loadQuestion;
   </script>
-
 </body>
-
 </html>
 <!-- partial -->
   
