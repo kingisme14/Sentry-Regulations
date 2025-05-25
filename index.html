@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Untitled</title>
+  
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+
+<html lang="zh-Hant">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <title>衛哨守則默寫練習</title>
+
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 8px;
+      margin: 5px 0 15px 0;
+    }
+
+    .correct {
+      color: green;
+    }
+
+    .wrong {
+      color: red;
+    }
+
+    h2 {
+      margin-top: 30px;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <h1>衛哨守則默寫練習</h1>
+
+  <form id="quizForm">
+
+    <h2>🔶用槍時機</h2>
+
+    <p>1 <textarea name="q1"></textarea></p>
+
+    <p>2 <textarea name="q2"></textarea></p>
+
+    <p>3 <textarea name="q3"></textarea></p>
+
+    <p>4 <textarea name="q4"></textarea></p>
+
+    <p>5 <textarea name="q5"></textarea></p>
+
+    <h2>🔷用槍要領</h2>
+
+    <p>1 <textarea name="q6"></textarea></p>
+
+    <p>2 <textarea name="q7"></textarea></p>
+
+    <p>3 <textarea name="q8"></textarea></p>
+
+    <p>4 <textarea name="q9"></textarea></p>
+
+    <p>5 <textarea name="q10"></textarea></p>
+
+    <h2>🔶安全守則</h2>
+
+    <p>1 <textarea name="q11"></textarea></p>
+
+    <p>2 <textarea name="q12"></textarea></p>
+
+    <p>3 <textarea name="q13"></textarea></p>
+
+    <p>4 <textarea name="q14"></textarea></p>
+
+    <p>5 <textarea name="q15"></textarea></p>
+
+    <p>6 <textarea name="q16"></textarea></p>
+
+    <p>7 <textarea name="q17"></textarea></p>
+
+    <p>8 <textarea name="q18"></textarea></p>
+
+    <h2>🔷一般守則</h2>
+
+    <p>1 <textarea name="q19"></textarea></p>
+
+    <p>2 <textarea name="q20"></textarea></p>
+
+    <p>3 <textarea name="q21"></textarea></p>
+
+    <p>4 <textarea name="q22"></textarea></p>
+
+    <p>5 <textarea name="q23"></textarea></p>
+
+    <p>6 <textarea name="q24"></textarea></p>
+
+    <p>7 <textarea name="q25"></textarea></p>
+
+    <p>8 <textarea name="q26"></textarea></p>
+
+    <h2>🔶六何</h2>
+
+    <p><textarea name="q27"></textarea></p>
+
+    <h2>🔷安全士官4大職責</h2>
+
+    <p>1 <textarea name="q28"></textarea></p>
+
+    <p>2 <textarea name="q29"></textarea></p>
+
+    <p>3 <textarea name="q30"></textarea></p>
+
+    <p>4 <textarea name="q31"></textarea></p>
+
+    <button type="button" onclick="checkAnswers()">提交答案</button>
+
+  </form>
+
+  <h2 id="result"></h2>
+
+  <div id="corrections"></div>
+
+  <script>
+    const answers = {
+      q1: "當生命身體受暴行脅迫非使用武器不得抵抗或自衛",
+      q2: "群眾暴動時非使用武器不能鎮壓",
+      q3: "所警戒之人員、武器、物資、車、船、航空器受危害脅迫非使用武器不能保護",
+      q4: "因防衛駐守之土地、場所、建築物受襲擾或擅闖經警告仍不聽從",
+      q5: "要犯脫逃非使用武器不能制止時",
+      q6: "武器使用前應先口頭警告並對空鳴槍",
+      q7: "經警告後如有畏服之行為應立即停止使用",
+      q8: "武器使用應注意避免傷及他人",
+      q9: "除非情勢異常緊迫儘量避免傷及其致命部位",
+      q10: "武器使用後應將情形報告於所屬長官",
+      q11: "負責營舍安全",
+      q12: "械彈清點管制",
+      q13: "嚴密水電管制",
+      q14: "清查就寢人數",
+      q15: "巡視衛哨勤務",
+      q16: "注意可疑人物",
+      q17: "接聽戰情電話",
+      q18: "反應緊急事故",
+      q19: "服裝整齊 配件光亮",
+      q20: "精神飽滿 姿態端正",
+      q21: "械彈攜出 確遵規則",
+      q22: "堅守崗位 嚴密搜索",
+      q23: "提高警覺 時時戒備",
+      q24: "不看熱鬧 注意可疑",
+      q25: "服勤認真 講話客氣",
+      q26: "嚴格管制 仔細查驗",
+      q27: "何時、何地、何人、何事、如何、為何",
+      q28: "庫存安全管制",
+      q29: "鑰匙保管權責",
+      q30: "軍械領繳查驗",
+      q31: "軍械清點責任"
+    };
+
+    function checkAnswers() {
+      let score = 0;
+      let total = Object.keys(answers).length;
+      let output = "";
+      const form = document.forms["quizForm"];
+      for (let key in answers) {
+        let userAnswer = form[key].value.trim().replace(/[\s　]+/g, "");
+        let correctAnswer = answers[key].replace(/[\s　]+/g, "");
+        if (userAnswer === correctAnswer) {
+          output += `<p class="correct">第${key.replace(/[^\d]/g, '')}題：正確</p>`;
+          score++;
+        } else {
+          output += `<p class="wrong">第${key.replace(/[^\d]/g, '')}題：錯誤（正確答案：${answers[key]}）</p>`;
+        }
+      }
+      document.getElementById("result").innerText = `總分：${score} / ${total}`;
+      document.getElementById("corrections").innerHTML = output;
+    }
+  </script>
+
+</body>
+
+</html>
+<!-- partial -->
+  
+</body>
+</html>
